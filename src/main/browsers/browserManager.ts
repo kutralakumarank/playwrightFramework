@@ -25,6 +25,10 @@ const chromiumoptions: LaunchOptions = {
     headless: false,
     args: ['--ignore-certificate-errors', '--start-maximized']
 }
+
+const caps={
+    
+}
 export const invokeBrowser = () => {
     const browserType = config.browserName || "chrome";
     switch (browserType) {
@@ -38,6 +42,12 @@ export const invokeBrowser = () => {
             return webkit.launch(webkitoptions);
         case "chromium":
             return webkit.launch(chromiumoptions);
+        case "browserStack":
+            return chromium.connect({
+                wsEndpoint:
+                `wss://cdp/browserstack.com/playwright?caps=`+
+                `${encodeURIComponent(JSON.stringify(caps))}`
+            })
         default:
             throw new Error("Please set the proper browser!")
     }
